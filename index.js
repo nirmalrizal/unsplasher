@@ -1,21 +1,46 @@
-const path = require("path");
-const request = require("request");
+#!/usr/bin/env node
+
 const fs = require("fs");
+const ora = require("ora");
+const path = require("path");
+const yargs = require("yargs");
+const request = require("request");
 
 const imageDownloadUrl = "https://unsplash.it/3360/1890/?random";
 
-let i = 1;
-const max = 200;
+const argv = yargs
+  .options({
+    p: {
+      alias: "path",
+      describe: "Path to save images",
+      string: true
+    },
+    n: {
+      alias: "num",
+      describe: "Total number of images to download",
+      string: true
+    }
+  })
+  .help()
+  .alias("help", "h").argv;
 
-downloadIMG(i);
+let i = 1;
+const max = argv.num ? argv.num : 10;
+const savePath = argv.path ? argv.path : "unsplashes";
+
+if (!fs.existsSync(savePath)) {
+  fs.mkdirSync(savePath);
+}
+checkAndDownloadImage();
 
 function downloadIMG() {
-  const fileName = `${path.resolve(__dirname)}/images/${i}.png`;
+  const fileName = `${savePath}/${i}.jpeg`;
   try {
+    const spinner = ora(`Downloading image ${i}`).start();
     request(imageDownloadUrl)
       .pipe(fs.createWriteStream(fileName))
       .on("close", function() {
-        console.log(`Download Complete Image ${i} !!`);
+        spinner.succeed(`Download complete ${i}`);
         i += 1;
         checkAndDownloadImage();
       });
