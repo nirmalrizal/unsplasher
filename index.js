@@ -39,8 +39,11 @@ function downloadIMG() {
     const spinner = ora(`Downloading image ${i}`).start();
     request(imageDownloadUrl)
       .pipe(fs.createWriteStream(fileName))
-      .on("close", function() {
-        spinner.succeed(`Download complete ${i}`);
+      .on("close", function(err) {
+        if (err) {
+          console.log(err);
+        }
+        spinner.succeed(`Downloaded image ${i}`);
         i += 1;
         checkAndDownloadImage();
       });
