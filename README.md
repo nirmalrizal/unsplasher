@@ -16,11 +16,12 @@ unsplasher -n <no_of_image> -p <path>
 
 ## Flags
 
-| Flag       | Description                        | Default    |
-| ---------- | ---------------------------------- | ---------- |
-| -h, --help | Show help                          |            |
-| -p, --path | Path to save images                | unsplashes |
-| -n, --num  | Total number of images to download | 10         |
+| Flag           | Description                         | Default    |
+| -------------- | ----------------------------------- | ---------- |
+| -h, --help     | Show help                           |            |
+| -p, --path     | Path to save images                 | unsplashes |
+| -n, --num      | Total number of images to download  | 10         |
+| -c, --category | Category keyword separated by comma | cat        |
 
 ## Examples
 
